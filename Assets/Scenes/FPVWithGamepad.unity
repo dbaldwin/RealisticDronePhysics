@@ -2647,9 +2647,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1839174956324524257, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: flightConfig
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3779157865046435242, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
       propertyPath: m_Name
       value: AcroCrazyflie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779157865046435242, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6873,6 +6881,83 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465100374}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1533262238
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1839174956324524257, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: flightConfig
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779157865046435242, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_Name
+      value: AltHoldCrazyflie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779157865046435242, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.499
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5687
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.783
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332568314321718674, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984005859811325901, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: ratesConfig.maxAngle
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984005859811325901, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: ratesConfig.exponentialGain
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984005859811325901, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
+      propertyPath: ratesConfig.proportionalGain
+      value: 50
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ec28e525f206b47bf903a0dd02d9c43e, type: 3}
 --- !u!1 &1567083543
 GameObject:
   m_ObjectHideFlags: 0
@@ -10203,3 +10288,4 @@ SceneRoots:
   - {fileID: 1969262040}
   - {fileID: 159145829}
   - {fileID: 509695407}
+  - {fileID: 1533262238}

@@ -46,11 +46,12 @@ namespace RealDronePhysics
 
             // Instantiate Target Transform
             targetQuad = new GameObject("TargetQuad").transform;
+            Debug.Log("TargetQuad position: " + targetQuad.rotation);
             targetQuad.parent = transform;
             targetQuad.SetPositionAndRotation(transform.position, transform.rotation * Quaternion.Euler(0, 0, 0));
-
             rotationPID = new DronePIDController();
             altitudePID = new DronePIDController();
+            Debug.Log("TargetQuad position: " + targetQuad.rotation);
         }
 
         private void FixedUpdate()
@@ -213,7 +214,7 @@ namespace RealDronePhysics
         public void ResetInternals()
         {
             targetAltitude = transform.position.y;
-            targetQuad.transform.rotation = transform.rotation * Quaternion.Euler(0,90,0);
+            targetQuad.transform.rotation = transform.rotation;
         }
     }
 }

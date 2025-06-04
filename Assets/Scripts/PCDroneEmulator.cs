@@ -53,20 +53,20 @@ namespace RealDronePhysics
                     break;
             }
 
-            // Respawn on Fire 1
-            if (Input.GetButton("Fire1"))
-            {
-                //Reset Position & Rotation on Respawn
-                transform.position = startPos;
-                transform.rotation = startRot;
+            // // Respawn on Fire 1
+            // if (Input.GetButton("Fire1"))
+            // {
+            //     //Reset Position & Rotation on Respawn
+            //     transform.position = startPos;
+            //     transform.rotation = startRot;
 
-                // Reset Rigidbody on Respawn
-                GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            //     // Reset Rigidbody on Respawn
+            //     GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            //     GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
-                // Reset Target Rotation on Respawn
-                GetComponent<DronePhysics>().ResetInternals();
-            }
+            //     // Reset Target Rotation on Respawn
+            //     GetComponent<DronePhysics>().ResetInternals();
+            // }
         }
     }
 }
