@@ -1,5 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class GateManager : MonoBehaviour
 {
@@ -50,11 +55,22 @@ public class GateManager : MonoBehaviour
         // Clear existing gates
         gates.Clear();
 
-        // Sort gates by their X position (assuming gates are arranged left to right)
-        System.Array.Sort(gateTriggers, (a, b) => a.transform.position.x.CompareTo(b.transform.position.x));
+        // Sort gates by their number in the name
+        var sortedTriggers = gateTriggers.OrderBy(trigger => {
+            string name = trigger.gameObject.name;
+            if (name.StartsWith("Gate "))
+            {
+                string numberStr = name.Substring(5); // Remove "Gate " prefix
+                if (int.TryParse(numberStr, out int gateNumber))
+                {
+                    return gateNumber;
+                }
+            }
+            return int.MaxValue; // Put invalid names at the end
+        }).ToArray();
 
         // Add gates in sorted order
-        foreach (GateTrigger trigger in gateTriggers)
+        foreach (GateTrigger trigger in sortedTriggers)
         {
             Gate newGate = new Gate
             {
@@ -131,35 +147,18 @@ public class GateManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (!showDebugInfo) return;
+        if (gates == null) return;
 
-        // Draw lines between gates to show the course
-        for (int i = 0; i < gates.Count - 1; i++)
-        {
-            if (gates[i].gateTransform != null && gates[i + 1].gateTransform != null)
-            {
-                Gizmos.color = gates[i].isTriggered ? Color.green : Color.yellow;
-                Gizmos.DrawLine(gates[i].gateTransform.position, gates[i + 1].gateTransform.position);
-            }
-        }
-
-        // Draw current gate target and gate numbers
         for (int i = 0; i < gates.Count; i++)
         {
-            if (gates[i].gateTransform != null)
-            {
-                if (i == currentGateIndex)
-                {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawWireSphere(gates[i].gateTransform.position, 1f);
-                }
-                
-                if (showGateNumbers)
-                {
-                    // Draw the gate number
-                    UnityEditor.Handles.Label(gates[i].gateTransform.position + Vector3.up, $"Gate {i}");
-                }
-            }
+            if (gates[i] == null || gates[i].gateTransform == null) continue;
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(gates[i].gateTransform.position, 0.5f);
+
+            #if UNITY_EDITOR
+            Handles.Label(gates[i].gateTransform.position + Vector3.up, $"Gate {i}");
+            #endif
         }
     }
 } 

@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
         if (!isRaceStarted && !isRaceFinished && dronePhysics != null)
         {
             float distanceMoved = Vector3.Distance(dronePhysics.transform.position, startPosition);
-            Debug.Log($"Distance moved: {distanceMoved:F3}, Threshold: {startDistanceThreshold:F3}");
 
             if (distanceMoved > startDistanceThreshold)
             {

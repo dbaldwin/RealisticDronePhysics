@@ -139,7 +139,8 @@ namespace RealDronePhysics
             targetQuad.localRotation = Quaternion.Euler(inputModule.rawPitch * inputModule.ratesConfig.maxAngle, targetQuad.localRotation.eulerAngles.y, inputModule.rawRoll * inputModule.ratesConfig.maxAngle);
             targetQuad.localRotation *= Quaternion.Euler(0f, inputModule.yaw * Time.deltaTime, 0f);
 
-            appliedForce = physicsConfig.thrust * inputModule.thrust * Vector3.one;
+            // Only apply vertical force
+            appliedForce = physicsConfig.thrust * inputModule.thrust * Vector3.up;
         }
         private void AltitudeHold()
         {
