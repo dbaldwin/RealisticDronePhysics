@@ -39,6 +39,8 @@ namespace RealDronePhysics
         public float rawPitch = 0f;
         [HideInInspector]
         public float rawRoll = 0f;
+
+        private bool isExternallyControlled = false;
         #endregion
 
         public void Update()
@@ -46,45 +48,63 @@ namespace RealDronePhysics
             CalculateInputWithRatesConfig();
         }
 
+        public void SetExternalControl(float thrustValue, float pitchValue, float rollValue = 0f)
+        {
+            thrust = thrustValue;
+            rawPitch = pitchValue;
+            rawRoll = rollValue;
+            pitch = TransformInput(pitchValue, ratesConfig.proportionalGain, ratesConfig.exponentialGain);
+            roll = TransformInput(rollValue, ratesConfig.proportionalGain, ratesConfig.exponentialGain);
+            isExternallyControlled = true;
+        }
+
+        public void ReleaseExternalControl()
+        {
+            isExternallyControlled = false;
+        }
+
         private void CalculateInputWithRatesConfig()
         {
-            // Implement according to FlightMode
-            switch (ratesConfig.mode)
+            if (!isExternallyControlled)
             {
-                case (DroneTransmitterMode.Mode1):
-                    rawThrust = rawRightVertical;
-                    rawYaw = rawLeftHorizontal;
-                    rawPitch = rawLeftVertical;
-                    rawRoll = rawRightHorizontal;
-                    break;
+                // Implement according to FlightMode
+                switch (ratesConfig.mode)
+                {
+                    case (DroneTransmitterMode.Mode1):
+                        rawThrust = rawRightVertical;
+                        rawYaw = rawLeftHorizontal;
+                        rawPitch = rawLeftVertical;
+                        rawRoll = rawRightHorizontal;
+                        break;
 
-                case (DroneTransmitterMode.Mode2):
-                    rawThrust = rawLeftVertical;
-                    rawYaw = rawLeftHorizontal;
-                    rawPitch = rawRightVertical;
-                    rawRoll = rawRightHorizontal;
-                    break;
+                    case (DroneTransmitterMode.Mode2):
+                        rawThrust = rawLeftVertical;
+                        rawYaw = rawLeftHorizontal;
+                        rawPitch = rawRightVertical;
+                        rawRoll = rawRightHorizontal;
+                        break;
 
-                case (DroneTransmitterMode.Mode3):
-                    rawThrust = rawRightVertical;
-                    rawYaw = rawRightHorizontal;
-                    rawPitch = rawLeftVertical;
-                    rawRoll = rawLeftHorizontal;
-                    break;
+                    case (DroneTransmitterMode.Mode3):
+                        rawThrust = rawRightVertical;
+                        rawYaw = rawRightHorizontal;
+                        rawPitch = rawLeftVertical;
+                        rawRoll = rawLeftHorizontal;
+                        break;
 
-                case (DroneTransmitterMode.Mode4):
-                    rawThrust = rawLeftVertical;
-                    rawYaw = rawRightHorizontal;
-                    rawPitch = rawRightVertical;
-                    rawRoll = rawLeftHorizontal;
-                    break;
+                    case (DroneTransmitterMode.Mode4):
+                        rawThrust = rawLeftVertical;
+                        rawYaw = rawRightHorizontal;
+                        rawPitch = rawRightVertical;
+                        rawRoll = rawRightHorizontal;
+                        break;
+                }
+
+                thrust = (rawThrust + 1) * 0.5f;
+                pitch = TransformInput(rawPitch, ratesConfig.proportionalGain, ratesConfig.exponentialGain);
+                roll = TransformInput(rawRoll, ratesConfig.proportionalGain, ratesConfig.exponentialGain);
             }
 
-            // Scale with Rates
-            thrust = (rawThrust + 1) * 0.5f;
             yaw = TransformInput(rawYaw, ratesConfig.proportionalGain, ratesConfig.exponentialGain);
-            pitch = TransformInput(rawPitch, ratesConfig.proportionalGain, ratesConfig.exponentialGain);
-            roll = TransformInput(rawRoll, ratesConfig.proportionalGain, ratesConfig.exponentialGain);
         }
 
         public float TransformInput(float input, float p, float e)

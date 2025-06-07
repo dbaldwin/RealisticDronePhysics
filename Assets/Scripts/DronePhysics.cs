@@ -136,7 +136,10 @@ namespace RealDronePhysics
         }
         private void SelfLeveling()
         {
+            // Pitch and roll
             targetQuad.localRotation = Quaternion.Euler(inputModule.rawPitch * inputModule.ratesConfig.maxAngle, targetQuad.localRotation.eulerAngles.y, inputModule.rawRoll * inputModule.ratesConfig.maxAngle);
+            
+            // Yaw
             targetQuad.localRotation *= Quaternion.Euler(0f, inputModule.yaw * Time.deltaTime, 0f);
 
             // Only apply vertical force
