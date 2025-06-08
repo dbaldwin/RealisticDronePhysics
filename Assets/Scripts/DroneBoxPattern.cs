@@ -5,7 +5,8 @@ public class DroneBoxPattern : MonoBehaviour
 {
     [Header("Pattern Settings")]
     public float stepDuration = 1f; // Duration of each movement step
-    public float hoverThrust = 0.5f; // Thrust for hovering
+    public float delayDuration = 1f; // Duration of delay between movements
+    public float hoverThrust = 1.0f; // Thrust for hovering
     public float forwardThrust = 0.7f; // Thrust for forward movement
     public float pitchValue = 1.0f; // Maximum pitch value
     public float rollValue = 1.0f; // Maximum roll value
@@ -15,6 +16,7 @@ public class DroneBoxPattern : MonoBehaviour
     private float stepStartTime;
     private int currentStep = 0;
     private bool isPatternActive = false;
+    private bool isInDelay = false;
 
     private void Start()
     {
@@ -54,32 +56,49 @@ public class DroneBoxPattern : MonoBehaviour
         {
             float timeInStep = Time.time - stepStartTime;
             
-            if (timeInStep >= stepDuration)
+            if (isInDelay)
+            {
+                if (timeInStep >= delayDuration)
+                {
+                    isInDelay = false;
+                    stepStartTime = Time.time;
+                    Debug.Log($"Starting step {currentStep + 1}");
+                }
+                else
+                {
+                    // During delay, maintain hover
+                    inputModule.SetExternalControl(hoverThrust, 0f, 0f);
+                }
+            }
+            else if (timeInStep >= stepDuration)
             {
                 // Move to next step
-                currentStep = (currentStep + 1) % 4;
+                currentStep = (currentStep + 1) % 5;
                 stepStartTime = Time.time;
-                Debug.Log($"Moving to step {currentStep + 1}");
+                isInDelay = true;
+                Debug.Log($"Step {currentStep} complete, starting delay");
             }
-
-            // Apply appropriate control based on current step
-            switch (currentStep)
+            else
             {
-                case 0: // Take off and hover
-                    inputModule.SetExternalControl(hoverThrust, 0f, 0f);
-                    break;
-                case 1: // Pitch forward
-                    inputModule.SetExternalControl(forwardThrust, pitchValue, 0f);
-                    break;
-                case 2: // Roll right
-                    inputModule.SetExternalControl(forwardThrust, 0f, rollValue);
-                    break;
-                case 3: // Pitch back
-                    inputModule.SetExternalControl(forwardThrust, -pitchValue, 0f);
-                    break;
-                case 4: // Roll left
-                    inputModule.SetExternalControl(forwardThrust, 0f, -rollValue);
-                    break;
+                // Apply appropriate control based on current step
+                switch (currentStep)
+                {
+                    case 0: // Take off and hover
+                        inputModule.SetExternalControl(hoverThrust, 0f, 0f);
+                        break;
+                    case 1: // Pitch forward
+                        inputModule.SetExternalControl(forwardThrust, pitchValue, 0f);
+                        break;
+                    case 2: // Roll right
+                        inputModule.SetExternalControl(forwardThrust, 0f, -rollValue);
+                        break;
+                    case 3: // Pitch back
+                        inputModule.SetExternalControl(forwardThrust, -pitchValue, 0f);
+                        break;
+                    case 4: // Roll left
+                        inputModule.SetExternalControl(forwardThrust, 0f, rollValue);
+                        break;
+                }
             }
         }
     }
@@ -88,6 +107,7 @@ public class DroneBoxPattern : MonoBehaviour
     {
         isPatternActive = true;
         currentStep = 0;
+        isInDelay = false;
         stepStartTime = Time.time;
         Debug.Log("Starting box pattern!");
     }
